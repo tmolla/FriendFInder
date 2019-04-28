@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta charset="UTF-8">
+		<title>Friend Finder</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<style>
+			.container {
+				width: 80%;
+				margin-bottom:100px
+			}
+			#aboutyou {
+				border: 1px solid black;
+				padding: 30px;
+				margin-bottom: 20px;
+				margin-top:20px
+			}
+			.custom-range {
+				margin-top: 5px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h2> Survey Questions</h2>
+			<!-- <hr> -->
+			<div id="aboutyou">
+				<h3>About you</h3>
+				<hr>
+				<div id="name">
+					<h4>Name (required) </h4>
+					<input type="text" class="form-control" id="yourName" placeholder="your name here" required>
+				</div>
+				<div id="url">
+					<h4>Link to Photo Image (required) </h4>	
+					<input type="URL" class="form-control" id="photoURL" placeholder="yor photo url here" required >
+				</div>
+			</div>
+			<h3>Questions (<small><em>0 = strongly disagree, 5 = strongly agree </em></small>) </h3>
+			<hr>
+			<h4>1. Your mind is always buzzing with unexplored ideas and plans</h4>
+			<input type="range" class="custom-range" data-Index="1" min="0" max="5" value=-1 id="question1">&nbsp;<span id="range1"></span>
+			<hr>
+			<!-- <h3>Question 2</h3> -->
+			<h4>2. Generally speaking, you rely more on your experience than your imagination</h4>
+			<input type="range" class="custom-range" data-Index="2" min="0" max="5" value=-1 id="question2">&nbsp;<span id="range2"></span>
+			<hr>
+			<!-- <h3>Question 3</h3> -->
+			<h4>3. You find it easy to stay relaxed and focused even when there is some pressure</h4>
+			<input type="range" class="custom-range" data-Index="3" min="0" max="5" value=-1 id="question1">&nbsp;<span id="range3"></span>
+			<hr>
+			<!-- <h3>Question 4</h3> -->
+			<h4>4. You rarely do something just out of sheer curiosity</h4>
+			<input type="range" class="custom-range" data-Index="4" min="0" max="5" value=-1 id="question1">&nbsp;<span id="range4"></span>
+			<hr>
+			<!-- <h3>Question 5</h3> -->
+			<h4>5. People can rarely upset you</h4>
+			<input type="range" class="custom-range" data-Index="5" min="0" max="5" value=-1 id="question1">&nbsp;<span id="range5"></span>
+			<hr>
+			<!-- <h3>Question 6</h3> -->
+			<h4>6. It is often difficult for you to relate to other people’s feelings</h4>
+			<input type="range" class="custom-range" data-Index="6" min="0" max="5" value=-1 id="question1">&nbsp;<span id="range6"></span>
+			<hr>
+			<!-- <h3>Question 7</h3> -->
+			<h4>7. In a discussion, truth should be more important than people’s sensitivities</h4>
+			<input type="range" class="custom-range" data-Index="7" min="0" max="5" value=-1 id="question1">&nbsp;<span id="range7"></span>
+			<hr>
+			<!-- <h3>Question 8</h3> -->
+			<h4>8. You rarely get carried away by fantasies and ideas</h4>
+			<input type="range" class="custom-range" data-Index="8" min="0" max="5" value=-1 id="question1">&nbsp;<span id="range8"></span>
+			<hr>
+			<!-- <h3>Question 9</h3> -->
+			<h4>9. You think that everyone’s views should be respected regardless of whether they are supported by facts or not</h4>
+			<input type="range" class="custom-range" data-Index="9" min="0" max="5" value=-1 id="question1">&nbsp;<span id="range9"></span>
+			<hr>
+			<!-- <h3>Question 10</h3> -->
+			<h4>10. You feel more energetic after spending time with a group of people</h4>
+			<input type="range" class="custom-range" data-Index="10" min="0" max="5" value=-1 id="question1">&nbsp;<span id="range10"></span>
+			<hr>
+			<button type="button" class="btn btn-dark btn-block submit">Submit</button>
+			<hr>
+			<footer class="footer"> 
+					<p>
+						<a href="/api/friends">API Friends List</a>  
+						|
+						<a href="https://github.com/tmolla/Crystals-Collector">GitHub Repo</a>
+					</p>
+				</footer>
+		</div>
+
+
+		<!-- Modal -->
+		<div class="modal fade" id="friend" tabindex="-1" role="dialog" aria-labelledby="friendLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="friendName">Modal title</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+				<img id="friendPhoto" src="" style="height:250px; width: 100%; height:100%;" alt="friend photo">
+
+			</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	</body>
+	<script type="text/javascript">
+		var idx;
+		var userName = "";
+		var photoURL = "";
+		$(document).ready(function() {
+			var score = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
+			console.log(score)
+			$(".custom-range").on("input", function(){
+				//console.log($(this).attr("data-Index"))
+				var idx = $(this).attr("data-Index");
+				var name = '#range' + idx;
+				$(name).text($(this).val());
+			})
+			$(".custom-range").change("input", function(){
+				idx = parseInt($(this).attr("data-Index")) - 1;
+				score[idx] = $(this).val();
+				//console.log(score);
+			});
+
+			$(".submit").on("click", function(){
+				console.log(score)
+				event.preventDefault();
+				data = {
+					name: $("#yourName").val(),
+					photoURL:$("#photoURL").val(),
+					scores:score
+				}
+
+				console.log(data);
+				$.ajax("/api/save", {
+					type: "POST",
+					data: {data}
+				}).then(function(res) {
+						console.log(res)
+						$("#friendName").text(res.name);
+						$("#friendPhoto").attr("src", res.photoURL);
+						$("#friend").modal('show');
+					});
+			});
+		});
+		</script>
+</html>
