@@ -1,16 +1,20 @@
 
+
 var path = require("path")
-console.log(path.join(__dirname, "../data/friends" ))
 var people = require("../data/friends");
+
 module.exports = function(app){
 
+    //default not found person object returned to the user
     var notFound = {
         name: "No Match Found",
         photoURL:"https://via.placeholder.com/300",
         scores:[]
     }
     
+    //save the person object making sure there is no duplicate
     function saveInfo(person){
+        
         //avoid duplicate
         var found = false;
         for(var i=0; i<people.length; i++){
@@ -19,13 +23,13 @@ module.exports = function(app){
                 break;
             }
         }
-        // if there is no one in the collecton or the person is not found
-        // add person to people
+        // No one in the collecton or person person, add to collection
         if ((people.length <= 0) || (!found)){
             people.push(person);
         }
     }
     
+    //find a friend
     function findMatch(seeker){
        var bestScore = 50; //large number to start 
        var matchIdx = -1;  //assume nothing found
@@ -46,10 +50,13 @@ module.exports = function(app){
         return matchIdx
     }
     
+    //routs to return all people in collection
     app.get("/api/friends", function(req, res){
         res.json(people);
     });
 
+    //save new entry into the collection if person name not duplicate
+    //return matching person as a candidate friend
     app.post("/api/save", function(req, res) {
         var person = req.body.data
         saveInfo(person);
