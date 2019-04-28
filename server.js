@@ -11,8 +11,9 @@ var PORT = process.env.PORT || 3000;
 //Set up the Express app to handle data parsing
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(express.static("app"))
 
-var notFound = {
+/* var notFound = {
     name: "No Match Found",
     photoURL:"https://via.placeholder.com/300",
     scores:[]
@@ -50,9 +51,11 @@ function findMatch(seeker){
         }
     }
     return matchIdx
-}
+} */
+require("./app/routing/apiRoutes")(app);
+require("./app/routing/htmlRoutes")(app);
 
-app.get("/", function(req, res){
+/* app.get("/", function(req, res){
     res.sendFile(path.join(__dirname, "app/public/home.html"));
 })
 app.get("/survey", function(req, res){
@@ -73,7 +76,7 @@ app.post("/api/save", function(req, res) {
     if (matchIdx > -1) { person = people[matchIdx]}
     
     res.json(person);  
-});
+}); */
 
 app.listen(PORT, function(){
     console.log("App listening on PORT " + PORT)
