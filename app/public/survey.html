@@ -85,14 +85,14 @@
 			<hr>
 			<footer class="footer"> 
 					<p>
+						<a href="/">Home</a> 
+						|
 						<a href="/api/friends">API Friends List</a>  
 						|
-						<a href="https://github.com/tmolla/Crystals-Collector">GitHub Repo</a>
+						<a href="https://github.com/tmolla/FriendFInder">GitHub Repo</a>
 					</p>
-				</footer>
+			</footer>
 		</div>
-
-
 		<!-- Modal -->
 		<div class="modal fade" id="friend" tabindex="-1" role="dialog" aria-labelledby="friendLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
@@ -109,7 +109,6 @@
 			</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<!-- <button type="button" class="btn btn-primary">Save changes</button> -->
 				</div>
 			</div>
 		</div>
@@ -119,11 +118,26 @@
 		var idx;
 		var userName = "";
 		var photoURL = "";
+
 		$(document).ready(function() {
 			var score = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
-			console.log(score)
+			
+			function isFormValid(){
+				var answer = TextTrackCue;
+				if (($("#yourName").val().trim() === "") || 
+					($("#photoURL").val().trim() === "")){
+					answer = false;
+				}
+				for (var i=0; i<score.length; i++){
+					if (parseInt(score[i]) === -1) {
+						answer = false;
+						break;
+					}
+				}
+				return(answer)
+			}
+
 			$(".custom-range").on("input", function(){
-				//console.log($(this).attr("data-Index"))
 				var idx = $(this).attr("data-Index");
 				var name = '#range' + idx;
 				$(name).text($(this).val());
@@ -131,28 +145,31 @@
 			$(".custom-range").change("input", function(){
 				idx = parseInt($(this).attr("data-Index")) - 1;
 				score[idx] = $(this).val();
-				//console.log(score);
 			});
 
 			$(".submit").on("click", function(){
-				console.log(score)
 				event.preventDefault();
-				data = {
-					name: $("#yourName").val(),
-					photoURL:$("#photoURL").val(),
-					scores:score
-				}
+				if (isFormValid()){
+					data = {
+						name: $("#yourName").val(),
+						photoURL:$("#photoURL").val(),
+						scores:score
+					}
 
-				console.log(data);
-				$.ajax("/api/save", {
-					type: "POST",
-					data: {data}
-				}).then(function(res) {
+					console.log(data);
+					$.ajax("/api/save", {
+						type: "POST",
+						data: {data}
+					})
+					.then(function(res) {
 						console.log(res)
 						$("#friendName").text(res.name);
 						$("#friendPhoto").attr("src", res.photoURL);
 						$("#friend").modal('show');
 					});
+				}else{
+					alert("Please enter all required fields and answer all questions.")
+				}
 			});
 		});
 		</script>
